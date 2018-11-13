@@ -58,8 +58,11 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 
+const lessToJs = require('less-vars-to-js');
+const modifyVars = lessToJs(fs.readFileSync(paths.appSrc + '/theme.less', 'utf8'));
+
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor) => {
+const getStyleLoaders = (cssOptions, preProcessor, preProcessorOptions) => {
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader,
@@ -297,6 +300,7 @@ module.exports = {
               ),
               
               plugins: [
+                ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {
@@ -418,7 +422,11 @@ module.exports = {
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'less-loader'
+              'less-loader',
+              {
+                modifyVars,
+                javascriptEnabled: true,
+              },
             ),
           },
           // "file" loader makes sure assets end up in the `build` folder.
