@@ -40,6 +40,9 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 
+const lessToJs = require('less-vars-to-js');
+const modifyVars = lessToJs(fs.readFileSync(paths.appSrc + '/theme.less', 'utf8'));
+
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor, preProcessorOptions) => {
   const loaders = [
@@ -331,6 +334,7 @@ module.exports = {
               },
               'less-loader',
               {
+                modifyVars,
                 javascriptEnabled: true,
               },
             ),
