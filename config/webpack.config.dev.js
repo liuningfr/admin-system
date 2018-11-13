@@ -41,7 +41,7 @@ const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor) => {
+const getStyleLoaders = (cssOptions, preProcessor, preProcessorOptions) => {
   const loaders = [
     require.resolve('style-loader'),
     {
@@ -70,7 +70,13 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     },
   ];
   if (preProcessor) {
-    loaders.push(require.resolve(preProcessor));
+    loaders.push(!preProcessorOptions
+      ? require.resolve(preProcessor)
+      : {
+        loader: require.resolve(preProcessor),
+        options: preProcessorOptions,
+      },
+    );
   }
   return loaders;
 };
@@ -223,6 +229,7 @@ module.exports = {
               ),
               
               plugins: [
+                ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {
@@ -318,7 +325,15 @@ module.exports = {
           {
             test: lessRegex,
             exclude: lessModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
+            use: getStyleLoaders(
+              {
+                importLoaders: 2,
+              },
+              'less-loader',
+              {
+                javascriptEnabled: true,
+              },
+            ),
           },
           {
             test: lessModuleRegex,
@@ -328,7 +343,10 @@ module.exports = {
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'less-loader'
+              'less-loader',
+              {
+                javascriptEnabled: true,
+              },
             ),
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
