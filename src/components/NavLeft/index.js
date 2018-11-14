@@ -13,7 +13,6 @@ class NavLeft extends React.Component {
   }
   componentWillMount() {
     const menuTreeNode =  this.renderMenu(menuConfig);
-    console.log(menuTreeNode);
     this.setState({ menuTreeNode });
   }
 
@@ -39,7 +38,7 @@ class NavLeft extends React.Component {
       <div>
         <div className="logo">
           <img src="/assets/logo-ant.svg" alt="" />
-          <h1>My Ant Design</h1>
+          <h1>My AntD</h1>
         </div>
         <Menu
           theme="dark" 
