@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Button, Radio } from 'antd';
-import './buttons.less';
+import './ui.less';
 class Buttons extends React.Component {
   constructor(props) {
     super(props);
