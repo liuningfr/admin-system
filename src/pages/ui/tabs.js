@@ -1,6 +1,6 @@
-import React from "react";
-import { Card, Message, Button } from "antd";
-import "./ui.less";
+import React from 'react';
+import { Card, Message, Button } from 'antd';
+import './ui.less';
 
 class Tabs extends React.Component {
   showMessage = type => {
@@ -10,19 +10,19 @@ class Tabs extends React.Component {
     return (
       <div>
         <Card title="Tab页签">
-          <Button type="primary" onClick={() => this.showMessage("success")}>
+          <Button type="primary" onClick={() => this.showMessage('success')}>
             Success
           </Button>
-          <Button type="primary" onClick={() => this.showMessage("info")}>
+          <Button type="primary" onClick={() => this.showMessage('info')}>
             Info
           </Button>
-          <Button type="primary" onClick={() => this.showMessage("warning")}>
+          <Button type="primary" onClick={() => this.showMessage('warning')}>
             Warning
           </Button>
-          <Button type="primary" onClick={() => this.showMessage("error")}>
+          <Button type="primary" onClick={() => this.showMessage('error')}>
             Error
           </Button>
-          <Button type="primary" onClick={() => this.showMessage("loading")}>
+          <Button type="primary" onClick={() => this.showMessage('loading')}>
             Loading
           </Button>
         </Card>
