@@ -3,22 +3,58 @@ import {
   Card,
   Form,
   Input,
-  Button,
+  TimePicker,
   message,
   Icon,
   Radio,
   InputNumber,
-  Select
+  Select,
+  Switch,
+  DatePicker,
+  Upload,
+  Checkbox,
+  Button
 } from 'antd';
+import moment from 'moment';
+
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
 
 class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageUrl: ''
+    };
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        message.success(`${values.username} 你好`);
       }
     });
+  };
+  handleReset = e => {
+    e.preventDefault();
+    this.props.form.resetFields();
+  };
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageUrl,
+          loading: false
+        })
+      );
+    }
   };
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -30,6 +66,15 @@ class Register extends React.Component {
       wrapperCol: {
         xs: 24,
         sm: 12
+      }
+    };
+    const offsetLayout = {
+      wrapperCol: {
+        xs: 24,
+        sm: {
+          span: 12,
+          offset: 4
+        }
       }
     };
     return (
@@ -95,6 +140,56 @@ class Register extends React.Component {
                   <Select.Option value={2}>运动</Select.Option>
                 </Select>
               )}
+            </Form.Item>
+            <Form.Item label="是否已婚" {...FormItemLayout}>
+              {getFieldDecorator('married', {
+                valuePropName: 'checked',
+                initialValue: true
+              })(<Switch />)}
+            </Form.Item>
+            <Form.Item label="生日" {...FormItemLayout}>
+              {getFieldDecorator('birth', {
+                initialValue: moment(new Date())
+              })(<DatePicker format="YYYY-MM-DD" placeholder="请选择日期" />)}
+            </Form.Item>
+            <Form.Item label="时间" {...FormItemLayout}>
+              {getFieldDecorator('time', {
+                initialValue: moment(new Date())
+              })(<TimePicker placeholder="请选择时间" />)}
+            </Form.Item>
+            <Form.Item label="备注" {...FormItemLayout}>
+              {getFieldDecorator('remarks', {
+                initialValue: ''
+              })(<Input.TextArea autosize={{ minRows: 4, maxRows: 6 }} />)}
+            </Form.Item>
+            <Form.Item label="头像" {...FormItemLayout}>
+              {getFieldDecorator('avatar', {
+                initialValue: ''
+              })(
+                <Upload
+                  listType="picture-card"
+                  action="//jsonplaceholder.typicode.com/posts/"
+                  onChange={this.handleChange}
+                >
+                  {this.state.imageUrl ? (
+                    <img src={this.state.imageUrl} alt="" />
+                  ) : (
+                    <Icon type="plus" />
+                  )}
+                </Upload>
+              )}
+            </Form.Item>
+            <Form.Item {...offsetLayout}>
+              {getFieldDecorator('agree', {
+                valuePropName: 'checked',
+                initialValue: true
+              })(<Checkbox>我已阅读该协议</Checkbox>)}
+            </Form.Item>
+            <Form.Item {...offsetLayout}>
+              <Button type="primary" onClick={this.handleSubmit}>
+                注册
+              </Button>
+              <Button onClick={this.handleReset}>重置</Button>
             </Form.Item>
           </Form>
         </Card>
