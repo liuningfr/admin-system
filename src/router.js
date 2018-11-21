@@ -15,6 +15,7 @@ import Gallery from './pages/ui/gallery';
 import Carousels from './pages/ui/carousels';
 import FormLogin from './pages/form/login';
 import FormReg from './pages/form/register';
+import BasicTable from './pages/table/basic';
 
 class IRouter extends React.Component {
   render() {
@@ -38,6 +39,7 @@ class IRouter extends React.Component {
                   <Route path="/admin/ui/carousel" component={Carousels} />
                   <Route path="/admin/form/login" component={FormLogin} />
                   <Route path="/admin/form/reg" component={FormReg} />
+                  <Route path="/admin/table/basic" component={BasicTable} />
                   <Route component={NotFound} />
                 </Switch>
               </Admin>
