@@ -47,7 +47,8 @@ class BasicTable extends React.Component {
     this.state = {
       dataSource: [],
       selectedRowKeys: [],
-      selectedItem: null
+      selectedItem: null,
+      selectedIds: []
     };
   }
   componentDidMount() {
@@ -78,6 +79,16 @@ class BasicTable extends React.Component {
       type: 'radio',
       selectedRowKeys
     };
+    const rowCheckSelection = {
+      type: 'check',
+      selectedRowKeys,
+      onChange: (selectedRowKeys, selectedRows) => {
+        this.setState({
+          selectedRowKeys,
+          selectedIds: selectedRows.map(item => item.id)
+        });
+      }
+    };
     return (
       <div>
         <Card title="Easy Mock 数据表格">
@@ -102,6 +113,15 @@ class BasicTable extends React.Component {
                 }
               };
             }}
+          />
+        </Card>
+        <Card title="复选表格">
+          <Table
+            rowKey="id"
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource}
+            rowSelection={rowCheckSelection}
           />
         </Card>
       </div>
