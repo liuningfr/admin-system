@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Table } from 'antd';
 import axios from './../../axios';
+import utils from './../../utils/utils';
 
 const states = {
   1: '状态一',
@@ -48,7 +49,8 @@ class BasicTable extends React.Component {
       dataSource: [],
       selectedRowKeys: [],
       selectedItem: null,
-      selectedIds: []
+      selectedIds: [],
+      current: 1
     };
   }
   componentDidMount() {
@@ -91,18 +93,11 @@ class BasicTable extends React.Component {
     };
     return (
       <div>
-        <Card title="Easy Mock 数据表格">
-          <Table
-            rowKey="id"
-            bordered
-            columns={columns}
-            dataSource={this.state.dataSource}
-          />
-        </Card>
         <Card title="单选表格">
           <Table
             rowKey="id"
             bordered
+            pagination={false}
             columns={columns}
             dataSource={this.state.dataSource}
             rowSelection={rowSelection}
@@ -119,9 +114,25 @@ class BasicTable extends React.Component {
           <Table
             rowKey="id"
             bordered
+            pagination={false}
             columns={columns}
             dataSource={this.state.dataSource}
             rowSelection={rowCheckSelection}
+          />
+        </Card>
+        <Card title="分页表格">
+          <Table
+            rowKey="id"
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource}
+            rowSelection={rowCheckSelection}
+            pagination={{
+              current: this.state.current,
+              pageSize: 5,
+              total: 10,
+              onChange: page => this.setState({ current: page })
+            }}
           />
         </Card>
       </div>
