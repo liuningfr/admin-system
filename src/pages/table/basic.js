@@ -45,7 +45,9 @@ class BasicTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: []
+      dataSource: [],
+      selectedRowKeys: [],
+      selectedItem: null
     };
   }
   componentDidMount() {
@@ -64,14 +66,42 @@ class BasicTable extends React.Component {
         this.setState({ dataSource: res.data });
       });
   };
+  onRowClick = (record, index) => {
+    this.setState({
+      selectedRowKeys: [index],
+      selectedItem: record
+    });
+  };
   render() {
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys
+    };
     return (
       <div>
-        <Card>
+        <Card title="Easy Mock 数据表格">
           <Table
+            rowKey="id"
             bordered
             columns={columns}
             dataSource={this.state.dataSource}
+          />
+        </Card>
+        <Card title="单选表格">
+          <Table
+            rowKey="id"
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource}
+            rowSelection={rowSelection}
+            onRow={(record, index) => {
+              return {
+                onClick: () => {
+                  this.onRowClick(record, index);
+                }
+              };
+            }}
           />
         </Card>
       </div>
