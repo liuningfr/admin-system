@@ -13,24 +13,29 @@ const hobbies = {
 const columns = [
   {
     title: 'id',
+    width: 80,
     dataIndex: 'id'
   },
   {
     title: '用户名',
+    width: 80,
     dataIndex: 'username'
   },
   {
     title: '性别',
+    width: 80,
     dataIndex: 'sex',
     render: text => (text === 1 ? '男' : '女')
   },
   {
     title: '状态',
+    width: 80,
     dataIndex: 'state',
     render: text => states[text]
   },
   {
     title: '爱好',
+    width: 80,
     dataIndex: 'hobby',
     render: text => {
       return text.map(item => hobbies[item]).join(', ');
@@ -38,10 +43,132 @@ const columns = [
   },
   {
     title: '生日',
+    width: 80,
     dataIndex: 'birth'
   }
 ];
-class BasicTable extends React.Component {
+const columns2 = [
+  {
+    title: 'id',
+    width: 80,
+    fixed: 'left',
+    dataIndex: 'id'
+  },
+  {
+    title: '用户名',
+    fixed: 'left',
+    width: 80,
+    dataIndex: 'username'
+  },
+  {
+    title: '性别',
+    width: 80,
+    dataIndex: 'sex',
+    render: text => (text === 1 ? '男' : '女')
+  },
+  {
+    title: '状态',
+    width: 80,
+    dataIndex: 'state',
+    render: text => states[text]
+  },
+  {
+    title: '爱好',
+    width: 80,
+    dataIndex: 'hobby',
+    render: text => {
+      return text.map(item => hobbies[item]).join(', ');
+    }
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    width: 80,
+    dataIndex: 'birth'
+  },
+  {
+    title: '生日',
+    fixed: 'right',
+    width: 80,
+    dataIndex: 'birth'
+  }
+];
+
+class HighTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,10 +203,6 @@ class BasicTable extends React.Component {
   };
   render() {
     const { selectedRowKeys } = this.state;
-    const rowSelection = {
-      type: 'radio',
-      selectedRowKeys
-    };
     const rowCheckSelection = {
       type: 'check',
       selectedRowKeys,
@@ -92,31 +215,24 @@ class BasicTable extends React.Component {
     };
     return (
       <div>
-        <Card title="单选表格">
+        <Card title="头部固定表格">
           <Table
             rowKey="id"
             bordered
-            pagination={false}
+            pagination={{ pageSize: 5 }}
             columns={columns}
             dataSource={this.state.dataSource}
-            rowSelection={rowSelection}
-            onRow={(record, index) => {
-              return {
-                onClick: () => {
-                  this.onRowClick(record, index);
-                }
-              };
-            }}
+            scroll={{ y: 240 }}
           />
         </Card>
-        <Card title="复选表格">
+        <Card title="左侧固定表格">
           <Table
             rowKey="id"
             bordered
-            pagination={false}
-            columns={columns}
+            pagination={{ pageSize: 5 }}
+            columns={columns2}
             dataSource={this.state.dataSource}
-            rowSelection={rowCheckSelection}
+            scroll={{ x: 1700 }}
           />
         </Card>
         <Card title="分页表格">
@@ -139,4 +255,4 @@ class BasicTable extends React.Component {
   }
 }
 
-export default BasicTable;
+export default HighTable;

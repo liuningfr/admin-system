@@ -32,19 +32,27 @@ export default class Axios {
         params: params || '',
         baseURL,
         timeout: 5000
-      }).then(response => {
-        loading.style.display = 'none';
-        if (response.status === 200) {
-          const res = response.data;
-          if (res.code === 0) {
-            resolve(res);
+      })
+        .then(response => {
+          loading.style.display = 'none';
+          if (response.status === 200) {
+            const res = response.data;
+            if (res.code === 0) {
+              resolve(res);
+            } else {
+              message.error(res.msg);
+            }
           } else {
-            message.error(res.msg);
+            loading.style.display = 'none';
+            message.error(response.data.msg);
+            reject(response.data);
           }
-        } else {
-          reject(response.data);
-        }
-      });
+        })
+        .catch(err => {
+          loading.style.display = 'none';
+          message.error('请求异常');
+          reject(err);
+        });
     });
   }
 }
