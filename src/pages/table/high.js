@@ -22,6 +22,12 @@ const columns = [
     dataIndex: 'username'
   },
   {
+    title: '年龄',
+    width: 80,
+    dataIndex: 'age',
+    sorter: (a, b) => a.age - b.age
+  },
+  {
     title: '性别',
     width: 80,
     dataIndex: 'sex',
@@ -173,9 +179,6 @@ class HighTable extends React.Component {
     super(props);
     this.state = {
       dataSource: [],
-      selectedRowKeys: [],
-      selectedItem: null,
-      selectedIds: [],
       current: 1
     };
   }
@@ -202,17 +205,6 @@ class HighTable extends React.Component {
     });
   };
   render() {
-    const { selectedRowKeys } = this.state;
-    const rowCheckSelection = {
-      type: 'check',
-      selectedRowKeys,
-      onChange: (selectedRowKeys, selectedRows) => {
-        this.setState({
-          selectedRowKeys,
-          selectedIds: selectedRows.map(item => item.id)
-        });
-      }
-    };
     return (
       <div>
         <Card title="头部固定表格">
@@ -235,19 +227,12 @@ class HighTable extends React.Component {
             scroll={{ x: 1700 }}
           />
         </Card>
-        <Card title="分页表格">
+        <Card title="排序表格">
           <Table
             rowKey="id"
             bordered
             columns={columns}
             dataSource={this.state.dataSource}
-            rowSelection={rowCheckSelection}
-            pagination={{
-              current: this.state.current,
-              pageSize: 5,
-              total: 10,
-              onChange: page => this.setState({ current: page })
-            }}
           />
         </Card>
       </div>
