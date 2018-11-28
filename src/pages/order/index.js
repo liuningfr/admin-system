@@ -1,6 +1,7 @@
 import React from 'react';
+import moment from 'moment';
 import axios from './../../axios';
-import { Card, Form, Select, Button, Table, DatePicker } from 'antd';
+import { Card, Form, Select, Button, Table, DatePicker, Modal } from 'antd';
 import './index.less';
 
 const columns = [
@@ -23,13 +24,24 @@ const columns = [
     dataIndex: 'time'
   }
 ];
+
+const formItemLayout = {
+  labelCol: {
+    span: 5
+  },
+  wrapperCol: {
+    span: 19
+  }
+};
 class City extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
       page: 1,
-      showOpenCity: false
+      showFinishOrder: false,
+      selectedRowKeys: [],
+      selectedRows: []
     };
   }
   componentDidMount() {
@@ -45,6 +57,9 @@ class City extends React.Component {
         this.setState({ list: res.data });
       });
   };
+  handleFinish = () => {
+    this.setState({ showFinishOrder: true });
+  };
   render() {
     return (
       <div>
@@ -53,11 +68,13 @@ class City extends React.Component {
         </Card>
         <Card>
           <Button type="primary">订单详情</Button>
-          <Button type="primary">结束订单</Button>
+          <Button type="primary" onClick={this.handleFinish}>
+            结束订单
+          </Button>
           <Table
             columns={columns}
             dataSource={this.state.list}
-            rowKey={row => row.city_id}
+            rowKey={row => row.order_id}
             pagination={{
               current: this.state.page,
               pageSize: 5,
@@ -65,8 +82,33 @@ class City extends React.Component {
                 this.setState({ page });
               }
             }}
+            rowSelection={{
+              type: 'radio',
+              onChange: (selectedRowKeys, selectedRows) => {
+                this.setState({ selectedRowKeys, selectedRows });
+              }
+            }}
           />
         </Card>
+        <Modal
+          title="结束订单"
+          visible={this.state.showFinishOrder}
+          onCancel={() => {
+            this.setState({ showFinishOrder: false });
+          }}
+        >
+          <Form>
+            <Form.Item label="订单ID" {...formItemLayout}>
+              00124587
+            </Form.Item>
+            <Form.Item label="城市名" {...formItemLayout}>
+              北京
+            </Form.Item>
+            <Form.Item label="下单时间" {...formItemLayout}>
+              {moment().format('YYYY-MM-DD')}
+            </Form.Item>
+          </Form>
+        </Modal>
       </div>
     );
   }
