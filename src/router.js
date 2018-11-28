@@ -19,6 +19,7 @@ import BasicTable from './pages/table/basic';
 import HighTable from './pages/table/high';
 import City from './pages/city';
 import Order from './pages/order';
+import Common from './common';
 
 class IRouter extends React.Component {
   render() {
@@ -49,6 +50,16 @@ class IRouter extends React.Component {
                   <Route component={NotFound} />
                 </Switch>
               </Admin>
+            )}
+          />
+          <Route
+            path="/common"
+            render={() => (
+              <Common>
+                <Switch>
+                  <Route path="/common/order/detail/:id" component={City} />
+                </Switch>
+              </Common>
             )}
           />
         </App>

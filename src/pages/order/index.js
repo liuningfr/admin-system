@@ -67,7 +67,14 @@ class City extends React.Component {
           <FormFiter />
         </Card>
         <Card>
-          <Button type="primary">订单详情</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              this.props.history.push('/common/order/detail/00124587');
+            }}
+          >
+            订单详情
+          </Button>
           <Button type="primary" onClick={this.handleFinish}>
             结束订单
           </Button>
