@@ -10,7 +10,7 @@ export default class Common extends React.Component {
         <Row className="simple-page">
           <Header menuType="second" />
         </Row>
-        <Row>{this.props.children}</Row>
+        <Row className="simple-container">{this.props.children}</Row>
       </div>
     );
   }
