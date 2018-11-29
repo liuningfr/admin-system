@@ -20,6 +20,7 @@ import HighTable from './pages/table/high';
 import City from './pages/city';
 import Order from './pages/order';
 import Common from './common';
+import Detail from './pages/order/detail';
 
 class IRouter extends React.Component {
   render() {
@@ -57,7 +58,7 @@ class IRouter extends React.Component {
             render={() => (
               <Common>
                 <Switch>
-                  <Route path="/common/order/detail/:id" component={City} />
+                  <Route path="/common/order/detail/:id" component={Detail} />
                 </Switch>
               </Common>
             )}

@@ -26,12 +26,20 @@
     box-shadow: 0 0 0 60px #fff inset;
   }
 }
-
+.clearfix {
+  &:after {
+    content: '';
+    clear: both;
+    display: block;
+    visibility: hidden;
+  }
+}
 // common 页面简单头
 .simple-page {
   .header-top {
     background: #1890ff;
     color: @colorM;
+    margin-bottom: 60px;
   }
   .ant-form,
   .ant-col-12,
