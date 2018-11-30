@@ -1,3 +1,6 @@
+import React from 'react';
+import { Select } from 'antd';
+
 export default {
   formatDate: time => {
     if (!time) {
@@ -16,5 +19,11 @@ export default {
       pageSize: 5,
       total: 10
     };
+  },
+  getOptionList: data => {
+    if (!data) return [];
+    return data.map(item => (
+      <Select.Option value={item.id}>{item.name}</Select.Option>
+    ));
   }
 };

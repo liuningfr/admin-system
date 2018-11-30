@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import { Card, Form, Button, Table, Modal } from 'antd';
 import axios from './../../axios';
-import { Card, Form, Select, Button, Table, DatePicker, Modal } from 'antd';
+import BaseForm from './../../components/BaseForm';
 import './index.less';
 
 const columns = [
@@ -22,6 +23,39 @@ const columns = [
   {
     title: '下单时间',
     dataIndex: 'time'
+  }
+];
+
+const formList = [
+  {
+    type: 'select',
+    label: '城市',
+    field: 'city_id',
+    initialValue: 0,
+    width: 120,
+    list: [
+      { id: 0, name: '全部' },
+      { id: 1, name: '北京' },
+      { id: 2, name: '上海' }
+    ]
+  },
+  {
+    type: 'select',
+    label: '营运模式',
+    field: 'op_mode',
+    initialValue: 0,
+    width: 120,
+    list: [
+      { id: 0, name: '全部' },
+      { id: 1, name: '自营' },
+      { id: 2, name: '加盟' }
+    ]
+  },
+  {
+    type: 'datepicker',
+    label: '下单时间',
+    field: 'time',
+    width: 280
   }
 ];
 
@@ -64,7 +98,7 @@ class City extends React.Component {
     return (
       <div>
         <Card>
-          <FormFiter />
+          <BaseForm formList={formList} />
         </Card>
         <Card>
           <Button
@@ -123,50 +157,50 @@ class City extends React.Component {
 
 export default City;
 
-class Filter extends React.Component {
-  handleSearch = e => {
-    e.preventDefault();
-    this.props.form.validateFields((errors, values) => {
-      console.log(values);
-    });
-  };
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form layout="inline">
-        <Form.Item label="城市">
-          {getFieldDecorator('city_id')(
-            <Select style={{ width: 120 }}>
-              <Select.Option value={0}>全部</Select.Option>
-              <Select.Option value={1}>北京</Select.Option>
-              <Select.Option value={2}>上海</Select.Option>
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item label="营运模式">
-          {getFieldDecorator('op_mod')(
-            <Select style={{ width: 120 }}>
-              <Select.Option value={0}>全部</Select.Option>
-              <Select.Option value={1}>自营</Select.Option>
-              <Select.Option value={2}>加盟</Select.Option>
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item label="下单时间">
-          {getFieldDecorator('time')(
-            <DatePicker style={{ width: 280 }} placeholder="请选择时间" />
-          )}
-        </Form.Item>
-        <Form.Item style={{ marginRight: 2 }}>
-          <Button type="primary" onClick={this.handleSearch}>
-            查询
-          </Button>
-        </Form.Item>
-        <Form.Item>
-          <Button>重置</Button>
-        </Form.Item>
-      </Form>
-    );
-  }
-}
-const FormFiter = Form.create()(Filter);
+// class Filter extends React.Component {
+//   handleSearch = e => {
+//     e.preventDefault();
+//     this.props.form.validateFields((errors, values) => {
+//       console.log(values);
+//     });
+//   };
+//   render() {
+//     const { getFieldDecorator } = this.props.form;
+//     return (
+//       <Form layout="inline">
+//         <Form.Item label="城市">
+//           {getFieldDecorator('city_id')(
+//             <Select style={{ width: 120 }}>
+//               <Select.Option value={0}>全部</Select.Option>
+//               <Select.Option value={1}>北京</Select.Option>
+//               <Select.Option value={2}>上海</Select.Option>
+//             </Select>
+//           )}
+//         </Form.Item>
+//         <Form.Item label="营运模式">
+//           {getFieldDecorator('op_mod')(
+//             <Select style={{ width: 120 }}>
+//               <Select.Option value={0}>全部</Select.Option>
+//               <Select.Option value={1}>自营</Select.Option>
+//               <Select.Option value={2}>加盟</Select.Option>
+//             </Select>
+//           )}
+//         </Form.Item>
+//         <Form.Item label="下单时间">
+//           {getFieldDecorator('time')(
+//             <DatePicker style={{ width: 280 }} placeholder="请选择时间" />
+//           )}
+//         </Form.Item>
+//         <Form.Item style={{ marginRight: 2 }}>
+//           <Button type="primary" onClick={this.handleSearch}>
+//             查询
+//           </Button>
+//         </Form.Item>
+//         <Form.Item>
+//           <Button>重置</Button>
+//         </Form.Item>
+//       </Form>
+//     );
+//   }
+// }
+// const FormFiter = Form.create()(Filter);
