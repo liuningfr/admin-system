@@ -37,17 +37,23 @@ class BaseForm extends React.Component {
       });
     }
   };
+  handleSubmit = () => {
+    this.props.onSubmit();
+  };
+  handleReset = () => {
+    this.props.form.resetFields();
+  };
   render() {
     return (
       <Form layout="inline">
         {this.initFormList()}
         <Form.Item style={{ marginRight: 2 }}>
-          <Button type="primary" onClick={this.handleSearch}>
+          <Button type="primary" onClick={this.handleSubmit}>
             查询
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button>重置</Button>
+          <Button onClick={this.handleReset}>重置</Button>
         </Form.Item>
       </Form>
     );

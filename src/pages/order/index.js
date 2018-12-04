@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Card, Form, Button, Table, Modal } from 'antd';
+import { Card, Form, Button, Table, Modal, message } from 'antd';
 import axios from './../../axios';
 import BaseForm from './../../components/BaseForm';
 import './index.less';
@@ -94,11 +94,14 @@ class City extends React.Component {
   handleFinish = () => {
     this.setState({ showFinishOrder: true });
   };
+  handleSubmit = () => {
+    message.success('查询成功');
+  };
   render() {
     return (
       <div>
         <Card>
-          <BaseForm formList={formList} />
+          <BaseForm formList={formList} onSubmit={this.handleSubmit} />
         </Card>
         <Card>
           <Button
