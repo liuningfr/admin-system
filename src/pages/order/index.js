@@ -82,14 +82,7 @@ class City extends React.Component {
     this.requestList();
   }
   requestList = () => {
-    axios
-      .ajax({
-        url: '/order/list',
-        method: 'get'
-      })
-      .then(res => {
-        this.setState({ list: res.data });
-      });
+    axios.requestList(this, { url: '/order/list', method: 'get' });
   };
   handleFinish = () => {
     this.setState({ showFinishOrder: true });

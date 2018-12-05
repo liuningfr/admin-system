@@ -55,4 +55,11 @@ export default class Axios {
         });
     });
   }
+  static requestList(_this, options) {
+    this.ajax(options).then(res => {
+      if (res && res.data) {
+        _this.setState({ list: res.data });
+      }
+    });
+  }
 }
