@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Select, Button, DatePicker } from 'antd';
+import { Form, Select, Button, DatePicker, Input } from 'antd';
 import utils from './../../utils/utils';
 
 class BaseForm extends React.Component {
@@ -29,6 +29,15 @@ class BaseForm extends React.Component {
                   style={{ width: item.width }}
                   placeholder="请选择时间"
                 />
+              )}
+            </Form.Item>
+          );
+        }
+        if (item.type === 'input') {
+          return (
+            <Form.Item label={item.label}>
+              {getFieldDecorator([item.field])(
+                <Input placeholder={item.placeholder} />
               )}
             </Form.Item>
           );
