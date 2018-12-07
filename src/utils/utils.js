@@ -23,7 +23,9 @@ export default {
   getOptionList: data => {
     if (!data) return [];
     return data.map(item => (
-      <Select.Option value={item.id}>{item.name}</Select.Option>
+      <Select.Option value={item.id} key={item.id}>
+        {item.name}
+      </Select.Option>
     ));
   }
 };

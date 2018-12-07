@@ -5,13 +5,13 @@ import utils from './../../utils/utils';
 class BaseForm extends React.Component {
   initFormList = () => {
     const { getFieldDecorator } = this.props.form;
-    const formList = this.props.formList;
+    const { formList } = this.props;
     if (formList && formList.length > 0) {
       return formList.map(item => {
         if (item.type === 'select') {
           return (
-            <Form.Item label={item.label}>
-              {getFieldDecorator([item.field], {
+            <Form.Item label={item.label} key={item.field}>
+              {getFieldDecorator(item.field, {
                 initialValue: item.initialValue
               })(
                 <Select style={{ width: item.width }}>
@@ -23,8 +23,8 @@ class BaseForm extends React.Component {
         }
         if (item.type === 'datepicker') {
           return (
-            <Form.Item label={item.label}>
-              {getFieldDecorator([item.field])(
+            <Form.Item label={item.label} key={item.field}>
+              {getFieldDecorator(item.field)(
                 <DatePicker
                   style={{ width: item.width }}
                   placeholder="请选择时间"
@@ -35,8 +35,8 @@ class BaseForm extends React.Component {
         }
         if (item.type === 'input') {
           return (
-            <Form.Item label={item.label} key={item.label}>
-              {getFieldDecorator([item.field])(
+            <Form.Item label={item.label} key={item.field}>
+              {getFieldDecorator(item.field)(
                 <Input
                   style={{ width: item.width }}
                   type="text"
