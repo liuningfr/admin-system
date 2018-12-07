@@ -35,9 +35,13 @@ class BaseForm extends React.Component {
         }
         if (item.type === 'input') {
           return (
-            <Form.Item label={item.label}>
+            <Form.Item label={item.label} key={item.label}>
               {getFieldDecorator([item.field])(
-                <Input placeholder={item.placeholder} />
+                <Input
+                  style={{ width: item.width }}
+                  type="text"
+                  placeholder={item.placeholder}
+                />
               )}
             </Form.Item>
           );

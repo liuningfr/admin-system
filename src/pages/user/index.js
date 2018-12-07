@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Table, message } from 'antd';
+import { Card, Button, Table, message, Modal, Form, Input, Radio } from 'antd';
 import axios from './../../axios';
 import BaseForm from './../../components/BaseForm';
 import './index.less';
@@ -40,7 +40,7 @@ const formList = [
     width: 120
   }
 ];
-class City extends React.Component {
+class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +48,9 @@ class City extends React.Component {
       page: 1,
       showFinishOrder: false,
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      visible: false,
+      title: ''
     };
   }
   componentDidMount() {
@@ -60,6 +62,11 @@ class City extends React.Component {
   handleSubmit = () => {
     message.success('查询成功');
   };
+  handleOperations = type => {
+    if (type === 'add') {
+      this.setState({ visible: true, title: '添加员工' });
+    }
+  };
   render() {
     return (
       <div>
@@ -69,16 +76,24 @@ class City extends React.Component {
         <Card>
           <Button
             type="primary"
+            icon="plus"
             onClick={() => {
-              this.props.history.push('/common/order/detail/00124587');
+              this.handleOperations('add');
             }}
           >
-            员工详情
+            添加员工
+          </Button>
+          <Button type="primary" icon="edit">
+            编辑详情
+          </Button>
+          <Button type="primary">员工详情</Button>
+          <Button type="primary" icon="delete">
+            删除详情
           </Button>
           <Table
             columns={columns}
             dataSource={this.state.list}
-            rowKey={row => row.order_id}
+            rowKey={row => row.user_id}
             pagination={{
               current: this.state.page,
               pageSize: 5,
@@ -94,9 +109,46 @@ class City extends React.Component {
             }}
           />
         </Card>
+        <Modal
+          title={this.state.title}
+          visible={this.state.visible}
+          onOk={this.handleSubmit}
+          onCancel={() => {
+            this.setState({ visible: false });
+          }}
+        >
+          <FormUser />
+        </Modal>
       </div>
     );
   }
 }
 
-export default City;
+export default User;
+
+class UserForm extends React.Component {
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: { span: 5 },
+      wrapperCol: { span: 19 }
+    };
+    return (
+      <Form>
+        <Form.Item label="姓名" {...formItemLayout}>
+          {getFieldDecorator('user_name')(<Input type="text" />)}
+        </Form.Item>
+        <Form.Item label="状态" {...formItemLayout}>
+          {getFieldDecorator('radio-group')(
+            <Radio.Group>
+              <Radio value="1">全职</Radio>
+              <Radio value="2">兼职</Radio>
+            </Radio.Group>
+          )}
+        </Form.Item>
+      </Form>
+    );
+  }
+}
+
+const FormUser = Form.create()(UserForm);
