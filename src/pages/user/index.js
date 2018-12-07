@@ -50,7 +50,9 @@ class User extends React.Component {
       selectedRowKeys: [],
       selectedRows: [],
       visible: false,
-      title: ''
+      title: '',
+      type: '',
+      userInfo: {}
     };
   }
   componentDidMount() {
@@ -59,19 +61,35 @@ class User extends React.Component {
   requestList = () => {
     axios.requestList(this, { url: '/user/list', method: 'get' });
   };
-  handleSubmit = () => {
+  handleSearch = () => {
     message.success('查询成功');
   };
   handleOperations = type => {
+    const [item] = this.state.selectedRows;
     if (type === 'add') {
-      this.setState({ visible: true, title: '添加员工' });
+      this.setState({ visible: true, title: '添加员工', type });
     }
+    if (type === 'edit') {
+      if (!item) {
+        message.error('请选择一个员工');
+        return;
+      }
+      this.setState({ visible: true, title: '编辑员工', type, userInfo: item });
+    }
+  };
+  handleSubmit = e => {
+    e.preventDefault();
+    this.openUserForm.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values);
+      }
+    });
   };
   render() {
     return (
       <div>
         <Card>
-          <BaseForm formList={formList} onSubmit={this.handleSubmit} />
+          <BaseForm formList={formList} onSubmit={this.handleSearch} />
         </Card>
         <Card>
           <Button
@@ -83,12 +101,18 @@ class User extends React.Component {
           >
             添加员工
           </Button>
-          <Button type="primary" icon="edit">
+          <Button
+            type="primary"
+            icon="edit"
+            onClick={() => {
+              this.handleOperations('edit');
+            }}
+          >
             编辑详情
           </Button>
           <Button type="primary">员工详情</Button>
           <Button type="primary" icon="delete">
-            删除详情
+            删除员工
           </Button>
           <Table
             columns={columns}
@@ -114,10 +138,17 @@ class User extends React.Component {
           visible={this.state.visible}
           onOk={this.handleSubmit}
           onCancel={() => {
+            this.openUserForm.props.form.resetFields();
             this.setState({ visible: false });
           }}
         >
-          <FormUser />
+          <FormUser
+            wrappedComponentRef={form => {
+              this.openUserForm = form;
+            }}
+            type={this.state.type}
+            userInfo={this.state.userInfo}
+          />
         </Modal>
       </div>
     );
@@ -136,10 +167,14 @@ class UserForm extends React.Component {
     return (
       <Form>
         <Form.Item label="姓名" {...formItemLayout}>
-          {getFieldDecorator('user_name')(<Input type="text" />)}
+          {getFieldDecorator('user_name', {
+            initialValue: this.props.userInfo.user_name || ''
+          })(<Input type="text" />)}
         </Form.Item>
         <Form.Item label="状态" {...formItemLayout}>
-          {getFieldDecorator('radio-group')(
+          {getFieldDecorator('radio-group', {
+            initialValue: this.props.userInfo.user_mode
+          })(
             <Radio.Group>
               <Radio value="1">全职</Radio>
               <Radio value="2">兼职</Radio>
