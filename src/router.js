@@ -23,6 +23,7 @@ import Common from './common';
 import Detail from './pages/order/detail';
 import User from './pages/user';
 import Map from './pages/map/map';
+import Bar from './pages/charts/bar';
 
 class IRouter extends React.Component {
   render() {
@@ -53,6 +54,7 @@ class IRouter extends React.Component {
                   <Route path="/admin/user" component={User} />
                   <Route path="/admin/user" component={User} />
                   <Route path="/admin/bikeMap" component={Map} />
+                  <Route path="/admin/charts/bar" component={Bar} />
                   <Route component={NotFound} />
                 </Switch>
               </Admin>

@@ -164,6 +164,7 @@ class UserForm extends React.Component {
       labelCol: { span: 5 },
       wrapperCol: { span: 19 }
     };
+    console.log(this.props.userInfo);
     return (
       <Form>
         <Form.Item label="姓名" {...formItemLayout}>
@@ -176,8 +177,8 @@ class UserForm extends React.Component {
             initialValue: this.props.userInfo.user_mode
           })(
             <Radio.Group>
-              <Radio value="1">全职</Radio>
-              <Radio value="2">兼职</Radio>
+              <Radio value={1}>全职</Radio>
+              <Radio value={2}>兼职</Radio>
             </Radio.Group>
           )}
         </Form.Item>
