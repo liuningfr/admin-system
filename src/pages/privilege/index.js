@@ -176,14 +176,7 @@ class PrivilegeForm extends React.Component {
         </Form.Item>
         <Form.Item label="平台权限" {...formItemLayout}>
           {getFieldDecorator('privilege')(
-            <Tree
-              checkable
-              onCheck={checkedKeys => {
-                console.log(checkedKeys);
-              }}
-            >
-              {this.renderTreeNodes(menuList)}
-            </Tree>
+            <Tree checkable>{this.renderTreeNodes(menuList)}</Tree>
           )}
         </Form.Item>
       </Form>

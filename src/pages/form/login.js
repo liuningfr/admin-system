@@ -24,7 +24,7 @@ class Login extends React.Component {
                 prefix={<Icon type="lock" />}
                 type="password"
                 placeholder="请输入密码"
-                autocomplete="new-password"
+                autoComplete="new-password"
               />
             </Form.Item>
             <Form.Item>
@@ -56,7 +56,7 @@ class Login extends React.Component {
                   prefix={<Icon type="lock" />}
                   type="password"
                   placeholder="请输入密码"
-                  autocomplete="new-password"
+                  autoComplete="new-password"
                 />
               )}
             </Form.Item>
