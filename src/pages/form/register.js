@@ -148,12 +148,12 @@ class Register extends React.Component {
             </Form.Item>
             <Form.Item label="生日" {...FormItemLayout}>
               {getFieldDecorator('birth', {
-                initialValue: moment(new Date())
+                initialValue: moment()
               })(<DatePicker format="YYYY-MM-DD" placeholder="请选择日期" />)}
             </Form.Item>
             <Form.Item label="时间" {...FormItemLayout}>
               {getFieldDecorator('time', {
-                initialValue: moment(new Date())
+                initialValue: moment()
               })(<TimePicker placeholder="请选择时间" />)}
             </Form.Item>
             <Form.Item label="备注" {...FormItemLayout}>

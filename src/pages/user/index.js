@@ -164,7 +164,6 @@ class UserForm extends React.Component {
       labelCol: { span: 5 },
       wrapperCol: { span: 19 }
     };
-    console.log(this.props.userInfo);
     return (
       <Form>
         <Form.Item label="姓名" {...formItemLayout}>
