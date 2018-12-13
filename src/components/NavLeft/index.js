@@ -1,8 +1,8 @@
-import React from "react";
-import { Menu } from "antd";
-import { NavLink } from "react-router-dom";
-import menuConfig from "./../../config/menuConfig";
-import "./index.less";
+import React from 'react';
+import { Menu } from 'antd';
+import { NavLink, Link } from 'react-router-dom';
+import menuConfig from './../../config/menuConfig';
+import './index.less';
 
 const SubMenu = Menu.SubMenu;
 class NavLeft extends React.Component {
@@ -38,8 +38,10 @@ class NavLeft extends React.Component {
     return (
       <div>
         <div className="logo">
-          <img src="/assets/logo-ant.svg" alt="" />
-          <h1>My AntD</h1>
+          <Link to="/">
+            <img src="/assets/logo-ant.svg" alt="" />
+            <h1>My AntD</h1>
+          </Link>
         </div>
         <Menu theme="dark">{this.state.menuTreeNode}</Menu>
       </div>
