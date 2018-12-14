@@ -1,5 +1,15 @@
 import React from 'react';
-import { Card, Button, Table, Form, Input, Radio, Modal, Tree } from 'antd';
+import {
+  Card,
+  Button,
+  Table,
+  Form,
+  Input,
+  Radio,
+  Modal,
+  Tree,
+  Transfer
+} from 'antd';
 import moment from 'moment';
 import axios from './../../axios';
 import menuList from './../../config/menuConfig';
@@ -41,8 +51,10 @@ class Privilege extends React.Component {
       list: [],
       selectedRowKeys: [],
       selectedRows: [],
+      targetKeys: [],
       showCreateRole: false,
-      showEditPrivilege: false
+      showEditPrivilege: false,
+      showUserAuth: false
     };
   }
   componentDidMount() {
@@ -54,6 +66,9 @@ class Privilege extends React.Component {
   editPrivilege = () => {
     this.setState({ showEditPrivilege: true });
   };
+  userAuth = () => {
+    this.setState({ showUserAuth: true });
+  };
   render() {
     return (
       <div>
@@ -64,7 +79,9 @@ class Privilege extends React.Component {
           <Button type="primary" onClick={this.editPrivilege}>
             设置权限
           </Button>
-          <Button type="primary">用户授权</Button>
+          <Button type="primary" onClick={this.userAuth}>
+            用户授权
+          </Button>
         </Card>
         <Card>
           <Table
@@ -104,6 +121,28 @@ class Privilege extends React.Component {
           <FormPrivilege
             wrappedComponentRef={inst => {
               this.PrivilegeForm = inst;
+            }}
+          />
+        </Modal>
+        <Modal
+          title="用户授权"
+          visible={this.state.showUserAuth}
+          width={600}
+          onCancel={() => {
+            this.AuthForm.props.form.resetFields();
+            this.setState({ showUserAuth: false });
+          }}
+          onOk={() => {
+            this.AuthForm.props.form.validateFields((err, values) => {
+              console.log(values);
+            });
+            this.AuthForm.props.form.resetFields();
+            this.setState({ showUserAuth: false });
+          }}
+        >
+          <FormAuth
+            wrappedComponentRef={inst => {
+              this.AuthForm = inst;
             }}
           />
         </Modal>
@@ -185,3 +224,56 @@ class PrivilegeForm extends React.Component {
 }
 
 const FormPrivilege = Form.create()(PrivilegeForm);
+
+class AuthForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      targetKeys: []
+    };
+  }
+  handleChange = nextTargetKeys => {
+    this.setState({ targetKeys: nextTargetKeys });
+  };
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: { span: 5 },
+      wrapperCol: { span: 19 }
+    };
+    const mockData = [];
+    for (let i = 0; i < 20; i++) {
+      mockData.push({
+        key: i.toString(),
+        title: `content${i + 1}`,
+        description: `description of content${i + 1}`
+      });
+    }
+    return (
+      <Form>
+        <Form.Item label="角色名称" {...formItemLayout}>
+          {getFieldDecorator('role_name')(<Input type="text" />)}
+        </Form.Item>
+        <Form.Item label="授权" {...formItemLayout}>
+          {getFieldDecorator('auth')(
+            <Transfer
+              dataSource={mockData}
+              targetKeys={this.state.targetKeys}
+              titles={['待选用户', '已选用户']}
+              render={item => item.title}
+              onChange={this.handleChange}
+              locale={{
+                itemUnit: '项',
+                itemsUnit: '项',
+                notFoundContent: '列表为空',
+                searchPlaceholder: '请输入搜索内容'
+              }}
+            />
+          )}
+        </Form.Item>
+      </Form>
+    );
+  }
+}
+
+const FormAuth = Form.create()(AuthForm);
