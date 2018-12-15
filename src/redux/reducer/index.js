@@ -5,13 +5,13 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  switch (action) {
+  switch (action.type) {
     case type.SWITCH_MENU:
       return {
         ...state,
         menuName: action.menuName
       };
     default:
-      break;
+      return state;
   }
 };

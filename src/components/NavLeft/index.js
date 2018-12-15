@@ -1,7 +1,9 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { NavLink, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import menuConfig from './../../config/menuConfig';
+import { switchMenu } from './../../redux/action';
 import './index.less';
 
 const SubMenu = Menu.SubMenu;
@@ -9,7 +11,8 @@ class NavLeft extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuTreeNode: null
+      menuTreeNode: null,
+      currentKey: window.location.hash.replace(/#|\?.*$/g, '')
     };
   }
   componentWillMount() {
@@ -33,7 +36,11 @@ class NavLeft extends React.Component {
       );
     });
   };
-
+  handleClick = item => {
+    const { dispatch } = this.props;
+    dispatch(switchMenu(item.item.props.title));
+    this.setState({ currentKey: item.key });
+  };
   render() {
     return (
       <div>
@@ -43,10 +50,16 @@ class NavLeft extends React.Component {
             <h1>My AntD</h1>
           </Link>
         </div>
-        <Menu theme="dark">{this.state.menuTreeNode}</Menu>
+        <Menu
+          theme="dark"
+          selectedKeys={[this.state.currentKey]}
+          onClick={this.handleClick}
+        >
+          {this.state.menuTreeNode}
+        </Menu>
       </div>
     );
   }
 }
 
-export default NavLeft;
+export default connect()(NavLeft);

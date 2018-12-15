@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import dayjs from 'dayjs';
+import { connect } from 'react-redux';
 import Axios from './../../axios';
 import './index.less';
 class Header extends React.Component {
@@ -27,7 +28,7 @@ class Header extends React.Component {
   };
 
   render() {
-    const { menuType } = this.props;
+    const { menuType, menuName } = this.props;
     return (
       <div className="header">
         <Row className="header-top">
@@ -47,7 +48,7 @@ class Header extends React.Component {
         ) : (
           <Row className="breadcrumb">
             <Col span={4} className="breadcrumb-title">
-              首页
+              {menuName}
             </Col>
             <Col span={20} className="weather">
               <span className="date">
@@ -61,5 +62,9 @@ class Header extends React.Component {
     );
   }
 }
-
-export default Header;
+const mapStateToProps = state => {
+  return {
+    menuName: state.menuName
+  };
+};
+export default connect(mapStateToProps)(Header);
